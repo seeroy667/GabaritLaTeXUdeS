@@ -1,0 +1,154 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\begin{comment}
+======================================
+======================================
+DÉVELOPPEMENT
+======================================
+======================================
+\end{comment}
+
+\chapter{Développement}
+
+\section{Cadre théorique}
+ 
+Texte explicatif appuyé par des références \cite{Exemple}.
+
+\section{Méthodologie}
+ 
+\subsection{Modèle utilisé}
+ 
+Le calcul de la tension se fait selon :
+\begin{equation}
+    V = RI
+\end{equation}
+\begin{definitions}[où :]
+    V & Tension aux bornes de la résistance [V] \\
+    R & Résistance [$\Omega$]                   \\
+    I & Courant traversant la résistance [A]    \\
+\end{definitions}
+
+\section{Résultats}
+
+La figure~\ref{fig:exemple} illustre le comportement mesuré.
+ 
+% Figure (commade définie dans app-utils.sty)
+\quickfigure{Comportement du système mesuré}{exemple}{0.6}{exemple.jpg}
+ 
+% Table (commade définie dans app-utils.sty)
+\quicktable{NomTableau}{tab-name}{l c c}{
+    \toprule
+    Nom1 & Nom2 & Nom3 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \texttt{NomText3} & Data5 & Data6 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \bottomrule
+}
+
+% Les diagrammes UML sont lourd à rendre. Vous les faites soit hors de LaTeX,
+% ou bien vous pré-compilez (comme mentionné dans le main.tex)
+\section{Diagrammes UML}
+
+% Use case diagram (commande définie dans app-diagrams.sty)
+\begin{quickusecasediagram}[0.85]{Diagramme de cas d'utilisation}{usecase-exemple2}
+ 
+    % Cadre du système
+    \umlsystem{-1.8}{-5.5}{8.5}{4.5}{QtDoom}
+ 
+    % Acteur
+    \umlactor{Utilisateur}{-4.5}{0}
+ 
+    % Cas d'utilisation
+    \umlusecase{uc1}{3}{3.0}{Entrer son nom}
+    \umlusecase{uc2}{3}{1.5}{Entrer mot de passe}
+    \umlusecase{uc3}{3}{0.0}{Valider connexion}
+    \umlusecase{uc4}{3}{-1.5}{Afficher profil}
+    \umlusecase{uc5}{3}{-3.0}{Se déconnecter}
+    \umlusecase{uc6}{3}{-4.5}{Modifier profil}
+ 
+    % Associations d'acteurs et de cas d'utilisation
+    \draw[umlassoc] (-4.1, 0.9) -- (uc1.west);
+    \draw[umlassoc] (-4.1, 0.9) -- (uc2.west);
+    \draw[umlassoc] (-4.1, 0.9) -- (uc3.west);
+    \draw[umlassoc] (-4.1, 0.9) -- (uc4.west);
+    \draw[umlassoc] (-4.1, 0.9) -- (uc5.west);
+    \draw[umlassoc] (-4.1, 0.9) -- (uc6.west);
+ 
+    % Relation include
+    \umlrelation[right]{include}{uc6}{uc5}{}
+    \draw[umlextend] (uc3.east) 
+                     -- ++(1, 0) 
+                     -- node[right, font=\scriptsize]{<<extend>>} ++(0, -1.5) 
+                     -- (uc4.east);
+ 
+\end{quickusecasediagram}
+
+% Class diagram (commande définie dans app-diagrams.sty)
+\begin{quickclassdiagram}[0.7]{Diagramme de classes}{classes-exemple3}
+ 
+    % Classe de librairies externes 
+    \node[umlclass] (QWidget) at (0, 0) {QWidget};
+ 
+    % Classe crée sois même
+    \node[umlclassnode] (APP) at (0, -6) {
+        \begin{umlclassbox}[6cm]{APP}
+            \umlattr{- acceuil : Acceuil*}
+            \umlattr{- compte : Compte*}
+            \umlattrbreak
+            \umlmethod{+ APP(parent : QWidget*)}
+            \umlmethod{+ deconnexion()}
+            \umlmethod{+ loadCompte(username : QString)}
+        \end{umlclassbox}
+    };
+ 
+    % Classe Acceuil
+    \node[umlclassnode] (ACC) at (-7, -6) {
+        \begin{umlclassbox}[5.5cm]{Acceuil}
+            \umlattr{- profilPage : Profil*}
+            \umlattr{- statsPage : Stats*}
+            \umlattrbreak
+            \umlmethod{+ Acceuil(parent : QWidget*)}
+            \umlmethod{+ deconnexion()}
+            \umlmethod{+ openProfilPage()}
+        \end{umlclassbox}
+    };
+ 
+    % Classe Compte
+    \node[umlclassnode] (COMPTE) at (7, -6) {
+        \begin{umlclassbox}[5.5cm]{Compte}
+            \umlattr{- username : QString}
+            \umlattr{- nip : QString}
+            \umlattrbreak
+            \umlmethod{+ Compte(parent : QWidget*)}
+            \umlmethod{+ changeUser(...)}
+        \end{umlclassbox}
+    };
+ 
+    % Héritages
+    \draw[umlheritage] (APP.north) -| (QWidget.south);
+    \draw[umlheritage]
+        (ACC.north) -- ++(0, 0.5) 
+                    -- ++(3.6, 0) 
+                    -- ++(0, 3.25) 
+                    -- (QWidget.west);
+    \draw[umlheritage]
+        (COMPTE.north) -- ++(0, 0.5) 
+                       -- ++(-3.6, 0) 
+                       -- ++(0, 3.57) 
+                       -- (QWidget.east);
+ 
+    % Compositions
+    \umlrelation{comp}{APP.west}{ACC.east}{}
+    \umlrelation{comp}{APP.east}{COMPTE.west}{}
+ 
+\end{quickclassdiagram}
+
+\end{document}

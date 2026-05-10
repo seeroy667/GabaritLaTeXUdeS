@@ -1,0 +1,125 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{app-utils}[2025/01/01 Utilitaires APP - UdeS Génie]
+
+\RequirePackage{comment}
+
+\RequirePackage{float}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{tabularx}
+
+\begin{comment}
+--------------------------------------
+--------------------------------------
+Commandes pour les
+FIGURES ET LES TABLEAUX
+--------------------------------------
+\quickfigure{caption}{label}{largeur}{path}
+\quicktable{NomTableau}{tab-name}{l c c}{%
+    \toprule
+    Nom1 & Nom2 & Nom3 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \texttt{NomText3} & Data5 & Data6 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \midrule
+    \texttt{NomText1} & Data1 & Data2 \\
+    \texttt{NomText2} & Data3 & Data4 \\
+    \bottomrule
+    }
+--------------------------------------
+\end{comment}
+
+% Exemple: \quickfigure{caption}{label}{0.8}{nom_fichier.jpg}
+% Description: Crée une figure
+\newcommand{\quickfigure}[4]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#3\textwidth]{figures/#4}
+    \caption{#1}\label{fig:#2}
+  \end{figure}
+}
+
+% Exemple: 
+    % \quicktable{NomTableau}{tab-name}{l c c}{%
+    %     \toprule
+    %     Nom1 & Nom2 & Nom3 \\
+    %     \midrule
+    %     \texttt{NomText1} & Data1 & Data2 \\
+    %     \texttt{NomText2} & Data3 & Data4 \\
+    %     \texttt{NomText3} & Data5 & Data6 \\
+    %     \midrule
+    %     \texttt{NomText1} & Data1 & Data2 \\
+    %     \texttt{NomText2} & Data3 & Data4 \\
+    %     \midrule
+    %     \texttt{NomText1} & Data1 & Data2 \\
+    %     \texttt{NomText2} & Data3 & Data4 \\
+    %     \bottomrule
+    % }
+% Description: Crée un tableau
+\newcommand{\quicktable}[4]{
+  \begin{table}[H]
+    \centering
+    \caption{#1}\label{tab:#2}
+    \begin{tabular}{#3}
+      #4
+    \end{tabular}
+  \end{table}
+}
+
+\begin{comment}
+--------------------------------------
+--------------------------------------
+Commandes pour la
+COMMUNICATION ET L'ANNOTATION
+--------------------------------------
+Contenu:
+    \todo{texte}
+    \note{texte}
+    \fixme{texte}
+--------------------------------------
+\end{comment}
+
+% Exemple: \todo{}
+% Description: Surligne le texte en rouge
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO :} #1}}
+
+% Exemple: \note{}
+% Description: Surligne le texte en orange
+\newcommand{\note}[1]{{\color{orange}\textbf{NOTE :} #1}}
+
+% Exemple: \fixme{}
+% Description: Surligne en magenta
+\newcommand{\fixme}[1]{{\color{magenta}\textbf{FIXME :} #1}}
+
+\begin{comment}
+--------------------------------------
+--------------------------------------
+Commandes pour les
+MATHÉMATIQUES
+--------------------------------------
+Contenu:
+    \begin{definitions}[où :]
+        x & Représente y [Y] \\
+        y & Représente z [Z] \\
+        z & Représente x [X] \\
+    \end{definitions}
+--------------------------------------
+\end{comment}
+
+% Exemple: 
+%     \begin{definitions}[où :]
+%         V & Tension aux bornes de la résistance [V] \\
+%         R & Résistance [$\Omega$]                   \\
+%         I & Courant traversant la résistance [A]    \\
+%     \end{definitions}
+% Description: Crée un environnement pour faire la définition de variables
+\newenvironment{definitions}[1][où :]
+  {#1 \par\vspace{\abovedisplayskip}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{${}\colon{}$} >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
+
+\endinput

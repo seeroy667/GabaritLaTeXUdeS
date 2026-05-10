@@ -1,0 +1,143 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{app-format}[2025/01/01 Mise en page APP - UdeS Génie]
+
+\RequirePackage{comment}
+
+\begin{comment}
+--------------------------------------
+--------------------------------------
+Définie les
+FORMATS
+requis selon la guide de rédaction de
+Jean-Phillipe Gouin
+--------------------------------------
+--------------------------------------
+\end{comment}
+
+% --- Permet la compilation séparée ---
+% (i.e. évite les timeout)
+\RequirePackage{subfiles}
+
+% --- Mathématiques ---
+\let\Bbbk\relax
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+
+% --- Langue et typographie ---
+\RequirePackage[french]{babel}
+\addto\extrasfrench{\let\scshape\relax}
+\RequirePackage{fontspec}
+\RequirePackage{mathspec}
+\setmainfont{Arial}
+\setmathfont{Cambria Math}
+\RequirePackage{csquotes}
+
+% --- Mise en page ---
+\RequirePackage[
+  paperwidth=8.5in, 
+  paperheight=11in,
+  top=2.54cm, 
+  bottom=2.54cm,
+  left=3.17cm, 
+  right=3.17cm,
+  headsep=1.25cm, 
+  footskip=1.25cm
+]{geometry}
+\RequirePackage{setspace}
+\onehalfspacing
+
+\setlength{\parindent}{0pt}
+
+\RequirePackage{pdflscape}
+\RequirePackage{everypage-1x}
+
+% --- Commande générée par IA ---
+% Sert à traiter les footer en mode landscape
+% Plus précisément à traiter le déplacement de ceux-ci
+% vers le bas de la page
+\newcommand{\Lpagenumber}{\ifdim\textwidth=\linewidth\else\bgroup
+  \dimendef\margin=0 %use \margin instead of \dimen0
+  \ifodd\value{page}\margin=\oddsidemargin
+  \else\margin=\evensidemargin
+  \fi
+  \raisebox{\dimexpr -\topmargin-\headheight-\headsep-0.5\linewidth}[0pt][0pt]{%
+    \rlap{\hspace{\dimexpr \margin+\textheight+\footskip}%
+    \llap{\rotatebox{90}{\thepage}}}}%
+\egroup\fi}
+\AddEverypageHook{\Lpagenumber}
+
+% --- Commande pour définir un espace en mode paysage ---
+\newcommand{\landscapemode}{%
+    \clearpage
+    \begin{landscape}
+    \pagestyle{empty}%
+}
+
+% --- Commande pour définir un espace en mode portrait ---
+\newcommand{\portraitmode}{%
+    \end{landscape}
+    \clearpage
+    \pagestyle{plain}%
+}
+
+% --- Hiérarchie des titres ---
+\RequirePackage{titlesec}
+\titleformat{\chapter}{\bfseries\fontsize{20}{24}\selectfont}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{12pt}
+\titleformat{\section}{\bfseries\fontsize{16}{20}\selectfont}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{12pt}{12pt}
+\titleformat{\subsection}{\bfseries\fontsize{14}{18}\selectfont}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% --- Commande générée par IA ---
+% Sert à traiter les footer en mode landscape,
+% Plus précisément à retirer les footer des
+% pages qui définissent un nouveau chapitre
+\makeatletter
+\renewcommand\chapter{%
+    \if@openright\cleardoublepage\else\clearpage\fi
+    \ifdim\textwidth=\linewidth
+        \thispagestyle{plain}%   % portrait → comportement normal
+    \fi
+    \global\@topnum\z@
+    \@afterindentfalse
+    \secdef\@chapter\@schapter
+}
+\makeatother
+
+% --- Figures et tableaux ---
+\RequirePackage{graphicx}
+\RequirePackage{float}
+\RequirePackage{caption}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+
+\captionsetup[figure]{
+    font=small, 
+    labelfont=bf, 
+    justification=centering
+}
+\captionsetup[table]{name=Tableau, labelsep=colon}
+\setlength{\heavyrulewidth}{1.1pt}
+
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\numberwithin{equation}{chapter}
+
+% --- Diagrammes ---
+\RequirePackage{tikz}
+\usetikzlibrary{calc, positioning, arrows.meta, shapes.geometric, fit}
+
+% --- Références IEEE ---
+\RequirePackage{silence}
+\WarningFilter{biblatex}{Macro 'volume+number'} % Sinon, il y a un warning qui apparait du à la version de biblatex utilisée par Overleaf. Une fois que la version sera mise à jour, le commentaire sera supprimé. Si une solution autre est trouvée, veuillez m'en aviser.
+\RequirePackage[backend=biber, style=ieee, sorting=none]{biblatex}
+
+% --- Annexes et hyperliens ---
+\RequirePackage{appendix}
+\RequirePackage[hidelinks]{hyperref}
+
+\RequirePackage{siunitx}
+\sisetup{locale=FR}
+
+\endinput

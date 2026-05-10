@@ -1,0 +1,71 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{app-titlepage}[2025/01/01 Page titre APP - UdeS Génie]
+
+\RequirePackage{comment}
+
+\begin{comment}
+--------------------------------------
+--------------------------------------
+Crée la 
+PAGE TITRE
+--------------------------------------
+--------------------------------------
+\end{comment}
+
+\RequirePackage{setspace}
+\RequirePackage[french]{babel}
+
+% --- Définition des champs ---
+\newcommand*{\@institution}{Université de Sherbrooke}
+\newcommand*{\@faculty}{Faculté de génie}
+\newcommand*{\@department}{Département de génie électrique et génie informatique}
+\newcommand*{\@courseName}{Nom du cours}
+\newcommand*{\@courseNumber}{GEN000}
+\newcommand*{\@teachers}{Prénom Nom}
+\newcommand*{\@team}{Équipe numéro}
+\newcommand*{\@reportAuthors}{Prénom Nom -- CIP}
+\newcommand*{\@reportDate}{Sherbrooke}
+
+\newcommand*{\courseName}[1]{\gdef\@courseName{#1}}
+\newcommand*{\courseNumber}[1]{\gdef\@courseNumber{#1}}
+\newcommand*{\teachers}[1]{\gdef\@teachers{#1}}
+\newcommand*{\team}[1]{\gdef\@team{#1}}
+\newcommand*{\authors}[1]{\gdef\@reportAuthors{#1}}
+\newcommand*{\reportDate}[1]{\gdef\@reportDate{#1}}
+
+% --- Macro utilitaire ---
+\newcommand{\usp}{\unskip\strut\par}
+
+% --- Page titre (conforme au gabarit UdeS) ---
+\renewcommand*{\maketitle}{
+\begin{titlepage}
+\begin{center}
+    \fontsize{12}{12}\selectfont
+    \MakeUppercase{\@institution}\\
+    \@faculty\\
+    \@department
+    \vspace{5\baselineskip}
+
+    \fontsize{20}{20}\selectfont\textbf{\@title}
+    \vspace{5\baselineskip}
+
+    \fontsize{12}{12}\selectfont
+    \@courseName\\
+    \@courseNumber
+    \vspace{5\baselineskip}
+
+    Présenté à\\
+    \@teachers
+    \vspace{5\baselineskip}
+
+    Présenté par\\
+    \@team\\
+    \@reportAuthors
+    \vspace{5\baselineskip}
+
+    \fontsize{14}{14}\selectfont Sherbrooke — \@reportDate
+\end{center}
+\end{titlepage}
+}
+
+\endinput

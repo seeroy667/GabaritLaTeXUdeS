@@ -1,0 +1,96 @@
+\documentclass[12pt]{report}
+
+\usepackage{app-format}
+\usepackage{app-titlepage}
+\usepackage{app-utils}
+\usepackage{app-diagrams}
+
+\begin{comment}
+======================================
+======================================
+Université de Sherbrooke,
+Département de génie,
+GABARIT DE RAPPORT LATEX
+basé sur le Guide de Rédaction
+de Jean-Philippe Gouin.
+Ce document fur rédigé par 
+Donavan Sirois.
+======================================
+Pour utiliser ce document, veuillez
+explorer de votre plein gré le
+template fourni. Si vous utilisez 
+Overleaf, pour éviter un time out,
+veuillez suivre les étapes suivante:
+- Compiler individuellement chaque 
+  document (subfiles).
+- Compiler le main.tex en ayant
+  commenter certaines plus grosses
+  sections (dans ce gabarit, c'est la
+  section développement)
+- Recompiler ces plus grosses sections
+  individuellement.
+- Recompiler le main.
+La raison pour toute ces manipulations
+se cache derrière la manière dont la 
+compilation séparée fonctionne avec
+les subfiles. Il faut compiler chaque 
+subfile, puis les linker (i.e.
+compiler le main). Le linker doit se
+faire avec chaque fichier, donc
+il se peut qu'il faille compiler le
+main plusieurs fois en commentant
+certaines sections et en les
+rajoutant au fur et à mesure. Les 
+commandes qui rendent le document long
+à compiler sont les diagrammes modelés
+avec tikz. Si jamais vous avez du mal
+à compiler avec ceux-ci, veuillez les
+mettre en commentaires.
+======================================
+\end{comment}
+
+% --- Métadonnées du rapport ---
+\title{TITRE DU RAPPORT}
+\courseName{Nom du cours}
+\courseNumber{GEN000}
+\teachers{Professeur1, Professeur2}
+\team{Équipe numéro}
+\authors{%
+  Nom1 -- Code1 \\
+  Nom2 -- Code2
+}
+\reportDate{Mois AAAA}
+
+\addbibresource{references.bib}
+
+% --- Rapport ---
+\begin{document}
+
+\maketitle
+
+% --- Pages préliminaire ---
+\pagenumbering{roman} % Pour les pages préliminaires
+\subfile{sections/00-sommaire}
+\tableofcontents
+\listoffigures
+\listoftables
+\subfile{sections/00-acronymes}
+
+% --- Corps ---
+\cleardoublepage
+\pagenumbering{arabic} % Pour le corps
+\subfile{sections/01-introduction}
+\subfile{sections/02-developpement}
+\subfile{sections/03-conclusion}
+
+% --- Annexes ---
+\newpage
+\appendix
+\subfile{sections/99-annexes}
+
+% --- References ---
+\cleardoublepage
+\printbibliography
+\addcontentsline{toc}{chapter}{Références}
+
+\end{document}
